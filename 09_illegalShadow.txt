@@ -1,0 +1,40 @@
+1 doubt i am checking scopes in console of browser so i noticed that let and const is initialised under Script and var is inside Global so in the example //Illegal Shadowing let a = 20; { var a = 20; //Syntax Error } let is under Script and var will be under Global how conflict happens
+
+
+Great observation 👌 — this doubt happens to almost everyone who inspects scopes in Chrome DevTools.
+
+You noticed:
+
+let / const → appear under “Script” scope
+
+var → appears inside “Global / Window”
+
+Yet this code is illegal:
+let a = 20;
+{
+   var a = 20;   // ❌ SyntaxError
+}
+
+
+✅ Truth: They are NOT different scopes
+
+Chrome DevTools UI makes it look like different scopes,
+but internally they both belong to the SAME Global Scope.
+
+At the spec level, the Global scope is implemented using:
+
+🧠 Global Environment Record =
+
+Object Record + Declarative Record
+
+Part	What goes inside
+Object Record	var + function declarations (attached to window in browsers)
+Declarative Record	let, const, class (NOT on window)
+
+Chrome shows them separately as:
+
+Global (object record → window)
+
+Script (declarative record)
+
+But they are part of the same environment, not separate scopes.

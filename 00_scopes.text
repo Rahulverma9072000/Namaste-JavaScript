@@ -1,0 +1,30 @@
+✅ var, let, const Scope Summary
+
+🔹 var
+Function scoped
+
+Not block scoped
+If declared outside function → becomes global
+Added to window / global object
+Hoisted → initialized as undefined
+
+
+🔹 let
+Block scoped {}
+Can be global but NOT added to window/global object
+Hoisted but NOT initialized → Temporal Dead Zone (TDZ)
+Cannot be redeclared in same scope
+
+🔹 const
+Block scoped {} (same scope rules as let)
+Must be initialized when declared
+Cannot be reassigned
+Not added to window/global
+Hoisted but NOT initialized → TDZ
+
+
+
+⭐ One-Liner Memory Trick
+
+var = function/global scope + window + hoisted with undefined
+let / const = block scope + TDZ + not on window
