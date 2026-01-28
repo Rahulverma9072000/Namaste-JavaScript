@@ -1,0 +1,77 @@
+Uses of Closures :
+- Module Design Pattern 
+- Currying 
+- Function like once 
+- Memoize 
+- Maintaining state in async world 
+- setTimeouts 
+- Iterators 
+and many more 
+
+
+A question i have , like when the scope of the function is over , and the closure is carrying the reference of that memory so is it not like its referring to dead memory / which is deallocated since function scope is already over 
+
+This is exactly the point where closures start to feel a little “black-magic-y”, so you’re thinking in the right direction.
+
+Short answer first 👇
+No, a closure never points to dead or deallocated memory.
+If a variable is still needed by a closure, JavaScript simply does not free it.
+
+Now let’s unpack why this works without breaking the universe 🧠
+
+Key idea (super important)
+
+👉 JavaScript uses garbage collection, not stack-style manual deallocation.
+Memory is freed only when nothing can reach it anymore.
+
+So the rule is:
+
+Reachable = alive
+Unreachable = eligible for garbage collection
+
+
+
+
+
+
+
+
+What actually happens with closures
+
+Let’s take your first example (slightly cleaned):
+
+function x() {
+    var a = 7;
+    function y() {
+        console.log(a);
+    }
+    a = 100;
+    return y;
+}
+
+var z = x();
+z();
+
+Step-by-step reality (not theory):
+
+x() is called
+
+Memory is created for:
+a
+function y
+
+x() returns y
+
+z now points to y
+
+y still needs a
+
+💡 Because y needs a, the JS engine keeps a alive.
+
+So even though x() has finished execution:
+
+Its execution context is gone
+
+But the variables needed by closures are preserved
+
+👉 This preserved environment is what we call Closure
